@@ -1,34 +1,32 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './App.css'
-import List from './components/List'
-
 
 
 interface Product {
+  id: number
   nameProduct: string
 }
 
 function App() {
   const [item, setItem] = useState<Array<Product>>([])
   const [modal, setModal] = useState<boolean>(false)
-  const [newProduct, setNewProduct] = useState(" ")
+  const [newProduct, setNewProduct] = useState<string>(' ')
 
   const toggleModal = () => {
     setModal(!modal)
   }
 
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("agregar producto")
+    event.preventDefault()
     const productAdd = {
-      nameProduct: newProduct
+      id: item.length,
+      nameProduct: newProduct,
     }
-    console.log(productAdd)
-    setItem(item.concat(productAdd))
-    setNewProduct("")
+    if (productAdd.nameProduct.length > 0) {
+      setItem(item.concat(productAdd))
+    }
+    setNewProduct('')
     setModal(!modal)
-    console.log(item)
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,14 +34,16 @@ function App() {
     console.log(newProduct)
   }
 
-  
+  const handleDelete = (id: number) => {
+    setItem((item) => item.filter((item) => item.id !== id))
+  }
 
   return (
     <div className="App">
       <div className="flex justify-center items-center min-w-fit min-h-screen  bg-slate-200">
-        <div className="list-container   flex flex-col gap-4  w-[500px] ">
+        <div className="list-container   flex flex-col justify-between rounded-lg  w-[500px] h-[500px] bg-white border border-sky-300  ">
           <header>
-            <h1 className=" flex justify-center font-barlow mt-3 text-3xl font-black ">
+            <h1 className=" flex justify-center font-barlow mt-3 py-2 text-3xl font-black  ">
               Supermarket list
             </h1>
           </header>
@@ -51,42 +51,64 @@ function App() {
             {item.length} item(s)
           </h4>
 
-          <List products={item} />
-          <button
-            className="mt-5 border rounded h-10 bg-sky-500 text-white"
-            onClick={toggleModal}
-          >
-            Add item
-          </button>
+          <div>
+            <ul>
+              {item.map((item) => (
+                <div className="item flex justify-between items-center h-10  px-5 text-xl mb-1 bg-slate-50 shadow-lg">
+                  <li key={item.id}>
+                    <p className="font-barlow">{item.nameProduct}</p>{' '}
+                  </li>
+                  <button
+                    className="font-barlow italic text-slate-500"
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    delete
+                  </button>
+                </div>
+              ))}
+            </ul>
+          </div>
+
+          <div className="p-5">
+            <button
+              className="mt-5  border rounded h-10 w-full bg-sky-500 text-white shadow-lg "
+              onClick={toggleModal}
+            >
+              Add item
+            </button>
+          </div>
         </div>
 
         {modal && (
           <>
-            <div className="modal-bg-container  fixed inset-0 bg-gray-100 bg-opacity-70"></div>
-            <div className=" bg-white  fixed mr-[300px] flex border rounded shadow-lg  justify-center flex-col h-[200px] w-[350px] ml-[300px] p-5">
+            <div
+              className="modal-bg-container  fixed inset-0 bg-gray-100 bg-opacity-70"
+              onClick={toggleModal}
+            ></div>
+            <div className="  bg-white  fixed mr-[300px] flex border rounded shadow-lg  justify-center flex-col h-[200px] w-[350px] ml-[300px] p-5">
               <h2 className="flex justify-center font-barlow font-black text-2xl">
                 Add item
               </h2>
-              <form onSubmit={handleSubmit}>
+              <span>
+                <i className="fa-solid fa-xmark" onClick={toggleModal}></i>
+              </span>
+              <form
+                className="flex flex-col items-center "
+                onSubmit={handleSubmit}
+              >
                 <input
-                  className="h-10 mt-5 border-2 border-sky-500 w-[310px]"
+                  className="px-5 h-10 mt-5 border-2 border-sky-500 w-[310px]"
                   type="text"
                   value={newProduct}
                   onChange={handleChange}
+                  autoFocus
                 ></input>
-                <div className="flex justify-between gap-3">
-                  <button
-                    className="mt-5 border rounded h-10 w-40 bg-slate-100  text-black"
-                    onClick={toggleModal}
-                  >
-                    Close
-                  </button>
-                  <button
-                    className="mt-5 border rounded w-40 bg-sky-500 text-white"
-                  >
-                    Add
-                  </button>
-                </div>
+                <button
+                  type="submit"
+                  className=" border rounded w-40 h-10 bg-sky-500 text-white mt-5 "
+                >
+                  Add
+                </button>
               </form>
             </div>
           </>
