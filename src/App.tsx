@@ -44,11 +44,11 @@ function App() {
         <div className="list-container   flex flex-col justify-between rounded-lg  w-[500px] h-[500px] bg-white border border-sky-300  ">
           <header>
             <h1 className=" flex justify-center font-barlow mt-3 py-2 text-3xl font-black  ">
-              Supermarket list
+              Lista supermercado
             </h1>
           </header>
           <h4 className="text-xl font-semibold flex justify-center">
-            {item.length} item(s)
+            {item.length} producto(s)
           </h4>
 
           <div>
@@ -62,7 +62,7 @@ function App() {
                     className="font-barlow italic text-slate-500"
                     onClick={() => handleDelete(item.id)}
                   >
-                    delete
+                    Eliminar
                   </button>
                 </div>
               ))}
@@ -74,7 +74,7 @@ function App() {
               className="mt-5  border rounded h-10 w-full bg-sky-500 text-white shadow-lg "
               onClick={toggleModal}
             >
-              Add item
+              Agregar producto
             </button>
           </div>
         </div>
@@ -86,19 +86,23 @@ function App() {
               onClick={toggleModal}
             ></div>
             <div className="  bg-white  fixed mr-[300px] flex border rounded shadow-lg  justify-center flex-col h-[200px] w-[350px] ml-[300px] p-5">
-              <h2 className="flex justify-center font-barlow font-black text-2xl">
-                Add item
-              </h2>
-              <span>
-                <i className="fa-solid fa-xmark" onClick={toggleModal}></i>
-              </span>
+              <div className='flex justify-between items-center'>
+                <h2 className=" font-barlow font-black text-2xl">
+                  Ingrese su producto
+                </h2>
+                <span>
+                  <i className="fa-solid fa-xmark text-xl text-sky-600" onClick={toggleModal}></i>
+                </span>
+              </div>
+
               <form
                 className="flex flex-col items-center "
                 onSubmit={handleSubmit}
               >
                 <input
-                  className="px-5 h-10 mt-5 border-2 border-sky-500 w-[310px]"
+                  className="px-5 h-10 mt-5 text-md border-2 border-sky-500 rounded-md  w-[310px] outline-none"
                   type="text"
+                  placeholder='producto...'
                   value={newProduct}
                   onChange={handleChange}
                   autoFocus
@@ -107,7 +111,7 @@ function App() {
                   type="submit"
                   className=" border rounded w-40 h-10 bg-sky-500 text-white mt-5 "
                 >
-                  Add
+                  Agregar producto
                 </button>
               </form>
             </div>
