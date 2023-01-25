@@ -21,7 +21,7 @@ yarn
 
 ![01](./assets/img1-supermark.jpg)
 
-![01](./assets/img2-supermark.jpg)
+![01](./assets/img3-supermark.jpg)
 
 ![01](./assets/img4-supermark.jpg)
 
